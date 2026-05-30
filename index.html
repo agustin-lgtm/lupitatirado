@@ -502,58 +502,228 @@ footer a:hover{color:var(--bronze-soft)}
 </section>
 
 <!-- Destinos -->
-<section class="section destinos" id="destinos">
-  <div class="container">
-    <div class="section-head">
+<!-- ═══ DESTINOS · SCROLL-DRIVEN CINEMATIC v4 ═══ -->
+<style>
+.lt-showcase{background:var(--ink);color:var(--warm-white);position:relative;overflow:visible}
+.lt-intro{padding:120px 0 50px;text-align:center;position:relative;z-index:2}
+.lt-intro::before{content:"";position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:900px;height:560px;background:radial-gradient(circle,rgba(201,168,114,.22) 0%,transparent 60%);pointer-events:none}
+.lt-intro .container{position:relative;z-index:1}
+.lt-intro .eyebrow{color:var(--bronze-soft);font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.32em;text-transform:uppercase;font-weight:600}
+.lt-intro h2{font-family:'Cormorant Garamond';font-weight:400;font-size:clamp(46px,5.8vw,84px);line-height:1.02;letter-spacing:-.025em;margin:18px auto 22px;color:#fff;max-width:920px;font-style:italic}
+.lt-intro h2 em{font-style:normal;color:var(--bronze-soft);font-weight:600}
+.lt-intro p{font-size:18px;color:rgba(247,240,224,.72);max-width:620px;line-height:1.75;margin:0 auto 32px}
+.lt-hint{display:inline-flex;align-items:center;gap:14px;padding:12px 26px;border:1px solid rgba(247,240,224,.22);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(247,240,224,.75);font-weight:600;animation:ltbounce 2.2s infinite}
+.lt-hint .arr{display:inline-block;color:var(--bronze-soft);font-size:18px;line-height:1}
+@keyframes ltbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+.lt-body{padding:0 32px 130px;position:relative}
+.lt-grid{display:grid;grid-template-columns:.58fr .42fr;gap:60px;align-items:start;max-width:1500px;margin:0 auto}
+
+/* LEFT: sticky image, dominante (58% width, 88vh) */
+.lt-sticky{position:sticky;top:60px;height:88vh;display:flex;align-items:center}
+.lt-stage{position:relative;width:100%;height:100%;overflow:hidden;background:#000;box-shadow:0 50px 100px -30px rgba(0,0,0,.7),0 0 0 1px rgba(247,240,224,.08)}
+.lt-stage > .lt-img{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(1.05);transition:opacity 1s cubic-bezier(.4,0,.2,1),transform 1.5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 50px;color:#fff;text-align:center}
+.lt-stage > .lt-img.lt-active{opacity:1;transform:scale(1)}
+.lt-img::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.28) 0%,transparent 55%),radial-gradient(circle at 80% 80%,rgba(0,0,0,.28) 0%,transparent 55%);pointer-events:none}
+.lt-img-inner{position:relative;z-index:1;max-width:560px}
+.lt-img-mark{font-family:'Cormorant Garamond';font-style:italic;font-size:clamp(160px,18vw,260px);line-height:.75;font-weight:500;letter-spacing:-.05em;margin-bottom:30px;opacity:.88;color:#fff}
+.lt-img-label{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.42em;text-transform:uppercase;font-weight:700;margin-bottom:18px;color:#fff;opacity:.9}
+.lt-img-title{font-family:'Cormorant Garamond';font-size:clamp(32px,3.4vw,52px);font-weight:500;font-style:italic;line-height:1.06;letter-spacing:-.022em;margin:0 auto 18px;color:#fff}
+.lt-img-sub{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.78);font-weight:600;line-height:1.6;margin-top:14px}
+
+/* Gradients per destino */
+.lt-img-0{background:linear-gradient(135deg,#c9a09a 0%,#a37363 35%,#6f4934 80%,#2d1c12 100%)}
+.lt-img-1{background:linear-gradient(135deg,#7a6c3a 0%,#a08147 35%,#5a4626 75%,#1f1810 100%)}
+.lt-img-2{background:linear-gradient(135deg,#a6c4c9 0%,#5e8b94 40%,#235660 75%,#0a1e22 100%)}
+.lt-img-3{background:linear-gradient(135deg,#d8a168 0%,#a06d3c 40%,#4f3216 80%,#1a1108 100%)}
+
+/* Counter top-left */
+.lt-counter{position:absolute;top:32px;left:36px;z-index:3;display:flex;align-items:flex-end;gap:14px;font-family:'Cormorant Garamond';font-style:italic;color:#fff;mix-blend-mode:difference;pointer-events:none}
+.lt-counter .lt-cur{font-size:84px;font-weight:600;line-height:.85;letter-spacing:-.04em}
+.lt-counter .lt-sep{font-size:38px;opacity:.6;font-weight:400;line-height:1}
+.lt-counter .lt-tot{font-size:38px;font-weight:500;opacity:.85;line-height:1}
+
+/* Progress bar bottom */
+.lt-progress{position:absolute;bottom:32px;left:36px;right:36px;z-index:3;display:flex;gap:10px;pointer-events:none}
+.lt-progress span{flex:1;height:2px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
+.lt-progress span::after{content:"";position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.4,0,.2,1)}
+.lt-progress span.lt-done::after{transform:scaleX(1)}
+
+/* RIGHT: text panels */
+.lt-panels{display:flex;flex-direction:column;padding-top:6vh;padding-bottom:6vh}
+.lt-panel{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:30px 0;opacity:.32;transition:opacity .7s ease}
+.lt-panel.lt-on{opacity:1}
+.lt-tag{display:inline-flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--bronze-soft);font-weight:700;margin-bottom:28px}
+.lt-tag .lt-sq{display:inline-grid;place-items:center;width:46px;height:46px;background:var(--bronze);color:var(--ink);font-family:'Cormorant Garamond';font-style:italic;font-size:22px;font-weight:600;letter-spacing:-.02em;border:1px solid var(--bronze)}
+.lt-panel h3{font-family:'Cormorant Garamond';font-size:clamp(40px,4.6vw,68px);font-weight:500;letter-spacing:-.025em;color:#fff;line-height:1.02;margin-bottom:24px;font-style:italic}
+.lt-panel h3 em{font-style:normal;color:var(--bronze-soft);font-weight:600}
+.lt-panel p{font-size:18px;color:rgba(247,240,224,.78);line-height:1.78;max-width:540px;margin-bottom:24px}
+.lt-venues{padding:18px 22px;background:rgba(247,240,224,.04);border-left:3px solid var(--bronze);font-size:14px;color:rgba(247,240,224,.85);line-height:1.65;margin-top:18px}
+.lt-venues b{display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--bronze-soft);font-weight:700;margin-bottom:6px}
+
+@media (max-width:980px){
+  .lt-grid{grid-template-columns:1fr;gap:0;max-width:100%}
+  .lt-sticky{display:none}
+  .lt-panel{min-height:auto;padding:30px 0;display:block;opacity:1}
+  .lt-panel::before{content:"";display:block;aspect-ratio:5/6;width:100%;margin-bottom:32px;background-size:cover;background-position:center;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+  .lt-panel[data-lt="0"]::before{background:linear-gradient(135deg,#c9a09a 0%,#a37363 35%,#6f4934 80%,#2d1c12 100%)}
+  .lt-panel[data-lt="1"]::before{background:linear-gradient(135deg,#7a6c3a 0%,#a08147 35%,#5a4626 75%,#1f1810 100%)}
+  .lt-panel[data-lt="2"]::before{background:linear-gradient(135deg,#a6c4c9 0%,#5e8b94 40%,#235660 75%,#0a1e22 100%)}
+  .lt-panel[data-lt="3"]::before{background:linear-gradient(135deg,#d8a168 0%,#a06d3c 40%,#4f3216 80%,#1a1108 100%)}
+  .lt-intro{padding:80px 0 30px}
+  .lt-body{padding:0 22px 80px}
+  .lt-panel h3{font-size:36px}
+}
+</style>
+
+<section class="lt-showcase" id="destinos">
+  <div class="lt-intro">
+    <div class="container">
       <span class="eyebrow">Signature destinations</span>
       <h2>Donde sea que decidas <em>casarte</em> en México.</h2>
-      <p>Operación regular en cuatro destinos firma — cada uno con vendor team validado, venues conocidos a profundidad y permisos pre-establecidos. Otros destinos bajo solicitud.</p>
+      <p>Cuatro destinos firma con vendor team validado, venues conocidos a profundidad y permisos pre-establecidos. Cada uno una experiencia distinta.</p>
+      <div class="lt-hint"><span class="arr">↓</span> Scrollea para recorrer los cuatro</div>
     </div>
-    <div class="dest-grid">
+  </div>
 
-      <div class="dest-card">
-        <div class="dest-card-head">
-          <div class="dest-num">i</div>
-          <span class="dest-tag">Heritage</span>
+  <div class="lt-body">
+    <div class="lt-grid">
+      <!-- LEFT: sticky image stage -->
+      <div class="lt-sticky">
+        <div class="lt-stage">
+          <div class="lt-counter">
+            <span class="lt-cur">01</span>
+            <span class="lt-sep">/</span>
+            <span class="lt-tot">04</span>
+          </div>
+
+          <div class="lt-img lt-img-0 lt-active">
+            <div class="lt-img-inner">
+              <div class="lt-img-mark">i</div>
+              <div class="lt-img-label">Heritage</div>
+              <div class="lt-img-title">San Miguel de Allende</div>
+              <div class="lt-img-sub">Rosewood SMA · Casa Hyder · Haciendas coloniales</div>
+            </div>
+          </div>
+
+          <div class="lt-img lt-img-1">
+            <div class="lt-img-inner">
+              <div class="lt-img-mark">ii</div>
+              <div class="lt-img-label">Cultural</div>
+              <div class="lt-img-title">Oaxaca</div>
+              <div class="lt-img-sub">Quinta Real · Centro histórico · Hierve el Agua</div>
+            </div>
+          </div>
+
+          <div class="lt-img lt-img-2">
+            <div class="lt-img-inner">
+              <div class="lt-img-mark">iii</div>
+              <div class="lt-img-label">Tropical</div>
+              <div class="lt-img-title">Riviera Maya</div>
+              <div class="lt-img-sub">Casa Malca · Habitas · Rosewood Mayakoba · Cenotes</div>
+            </div>
+          </div>
+
+          <div class="lt-img lt-img-3">
+            <div class="lt-img-inner">
+              <div class="lt-img-mark">iv</div>
+              <div class="lt-img-label">Coastal</div>
+              <div class="lt-img-title">Cabo San Lucas</div>
+              <div class="lt-img-sub">One&amp;Only Palmilla · Las Ventanas · Esperanza</div>
+            </div>
+          </div>
+
+          <div class="lt-progress">
+            <span class="lt-done"></span><span></span><span></span><span></span>
+          </div>
         </div>
-        <h3>San Miguel de Allende</h3>
-        <p>El destino más romántico de México. Centro histórico, haciendas restauradas, capillas coloniales. Bodas íntimas de tarde con cielo abierto y luces de vela.</p>
-        <div class="venues"><b>Venues firma</b> · Rosewood SMA · Casa Hyder · Haciendas coloniales</div>
       </div>
 
-      <div class="dest-card">
-        <div class="dest-card-head">
-          <div class="dest-num">ii</div>
-          <span class="dest-tag">Cultural</span>
-        </div>
-        <h3>Oaxaca</h3>
-        <p>Para parejas que buscan profundidad cultural. Bodas con elementos zapotecos, mezcal de autor, textiles tradicionales y la naturaleza incomparable de la sierra.</p>
-        <div class="venues"><b>Venues firma</b> · Hotel Quinta Real · Casas privadas centro histórico · Hierve el Agua</div>
-      </div>
+      <!-- RIGHT: text panels -->
+      <div class="lt-panels">
 
-      <div class="dest-card">
-        <div class="dest-card-head">
-          <div class="dest-num">iii</div>
-          <span class="dest-tag">Tropical</span>
+        <div class="lt-panel lt-on" data-lt="0">
+          <div class="lt-tag"><span class="lt-sq">i</span> Heritage · 01</div>
+          <h3>San Miguel de <em>Allende</em>.</h3>
+          <p>El destino más romántico de México. Centro histórico colonial, haciendas restauradas, capillas íntimas. Bodas de tarde con cielo abierto y luces de vela.</p>
+          <p>Ideal para parejas que buscan el cliché perfecto: piedra cantera, balcones con buganvilias, y una procesión por las calles empedradas del centro.</p>
+          <div class="lt-venues"><b>Venues firma</b>Rosewood SMA · Casa Hyder · Haciendas coloniales privadas</div>
         </div>
-        <h3>Riviera Maya</h3>
-        <p>Bodas frente al mar Caribe. Cenotes para ceremonia simbólica, playa para recepción, jungla para after. Tulum o Playa del Carmen con vendor team local establecido.</p>
-        <div class="venues"><b>Venues firma</b> · Casa Malca · Habitas Tulum · Rosewood Mayakoba · Cenotes privados</div>
-      </div>
 
-      <div class="dest-card">
-        <div class="dest-card-head">
-          <div class="dest-num">iv</div>
-          <span class="dest-tag">Coastal</span>
+        <div class="lt-panel" data-lt="1">
+          <div class="lt-tag"><span class="lt-sq">ii</span> Cultural · 02</div>
+          <h3>Oaxaca y su <em>raíz</em>.</h3>
+          <p>Para parejas que buscan profundidad cultural genuina. Bodas con elementos zapotecos, mezcal de autor, textiles tradicionales y la naturaleza incomparable de la sierra.</p>
+          <p>Coordinamos con artesanos locales para integrar elementos auténticos: copal, marigolds, música tradicional, gastronomía de autor.</p>
+          <div class="lt-venues"><b>Venues firma</b>Hotel Quinta Real · Casas privadas centro histórico · Hierve el Agua para sesión</div>
         </div>
-        <h3>Cabo San Lucas</h3>
-        <p>Bodas frente al Pacífico para parejas internacionales. Cenas al atardecer, after en yate, ceremonias en acantilado. Resorts AAA con permisos resueltos.</p>
-        <div class="venues"><b>Venues firma</b> · One&amp;Only Palmilla · Las Ventanas al Paraíso · Esperanza Resort</div>
-      </div>
 
+        <div class="lt-panel" data-lt="2">
+          <div class="lt-tag"><span class="lt-sq">iii</span> Tropical · 03</div>
+          <h3>Riviera <em>Maya</em>.</h3>
+          <p>Bodas frente al mar Caribe. Cenotes para ceremonia simbólica, playa para recepción, jungla para after. Tulum o Playa del Carmen con vendor team local establecido.</p>
+          <p>Manejamos permisos federales (cenotes), municipales (playa) y privados — sin que tú tengas que pensarlo. Vendor team local 100% validado.</p>
+          <div class="lt-venues"><b>Venues firma</b>Casa Malca · Habitas Tulum · Rosewood Mayakoba · Cenotes privados</div>
+        </div>
+
+        <div class="lt-panel" data-lt="3">
+          <div class="lt-tag"><span class="lt-sq">iv</span> Coastal · 04</div>
+          <h3>Cabo San <em>Lucas</em>.</h3>
+          <p>Bodas frente al Pacífico para parejas internacionales. Cenas al atardecer, after en yate, ceremonias en acantilado. Resorts AAA con permisos resueltos.</p>
+          <p>Ideal para parejas con invitados internacionales — aeropuerto SJD conecta directo con USA y Canadá, infraestructura hotelera de clase mundial.</p>
+          <div class="lt-venues"><b>Venues firma</b>One&amp;Only Palmilla · Las Ventanas al Paraíso · Esperanza Resort</div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  const panels = Array.from(document.querySelectorAll('.lt-panel[data-lt]'));
+  const images = Array.from(document.querySelectorAll('.lt-img'));
+  const counter = document.querySelector('.lt-counter .lt-cur');
+  const progressBars = Array.from(document.querySelectorAll('.lt-progress span'));
+  if(!panels.length || !images.length) return;
+
+  let currentIdx = -1;
+  const setActive = (idx) => {
+    if (idx === currentIdx) return;
+    currentIdx = idx;
+    images.forEach((img, i) => img.classList.toggle('lt-active', i === idx));
+    panels.forEach((p) => p.classList.toggle('lt-on', parseInt(p.dataset.lt, 10) === idx));
+    if (counter) counter.textContent = String(idx + 1).padStart(2, '0');
+    progressBars.forEach((bar, i) => bar.classList.toggle('lt-done', i <= idx));
+  };
+
+  const updateActive = () => {
+    const center = window.innerHeight / 2;
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    panels.forEach((panel) => {
+      const rect = panel.getBoundingClientRect();
+      const panelCenter = rect.top + rect.height / 2;
+      const dist = Math.abs(panelCenter - center);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = parseInt(panel.dataset.lt, 10);
+      }
+    });
+    setActive(bestIdx);
+  };
+
+  let raf = null;
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => { updateActive(); raf = null; });
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  updateActive();
+})();
+</script>
 
 <!-- Proceso -->
 <section class="section proceso" id="proceso">
